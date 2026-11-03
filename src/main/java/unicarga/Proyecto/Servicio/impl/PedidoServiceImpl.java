@@ -1,18 +1,18 @@
-package com.gerdoc.escuela.service.impl;
+package unicarga.Proyecto.Servicio.impl;
 
-import com.gerdoc.escuela.model.Pedido;
-import com.gerdoc.escuela.repository.PedidoRepository;
-import com.gerdoc.escuela.service.PedidoService;
+import unicarga.Proyecto.model.Pedido;
+import unicarga.Proyecto.repository.PedidoRepository;
+import unicarga.Proyecto.Servicio.PedidoServicio;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Servicio;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Servicio
 @RequiredArgsConstructor
-public class PedidoServiceImpl implements PedidoService
+public class PedidoServicioImpl implements PedidoServicio
 {
     private final PedidoRepository PedidoRepository;
 

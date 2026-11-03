@@ -1,4 +1,4 @@
-package com.gerdoc.escuela.service;
+package unicarga.Proyecto.Servicio;
 
 
 import com.gerdoc.escuela.model.Pedido;
