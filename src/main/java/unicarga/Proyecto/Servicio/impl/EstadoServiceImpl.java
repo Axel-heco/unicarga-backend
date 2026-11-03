@@ -1,7 +1,7 @@
 package unicarga.Proyecto.Servicio.impl;
 
-import unicarga.Proyecto.model.Estado;
-import unicarga.Proyecto.repository.EstadoRepository;
+import unicarga.Proyecto.Modelo.Estado;
+import unicarga.Proyecto.Repositorio.EstadoRepository;
 import unicarga.Proyecto.Servicio.EstadoServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Servicio;
