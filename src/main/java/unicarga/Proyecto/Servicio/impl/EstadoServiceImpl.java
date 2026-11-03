@@ -1,18 +1,18 @@
-package com.gerdoc.escuela.service.impl;
+package unicarga.Proyecto.Servicio.impl;
 
-import com.gerdoc.escuela.model.Estado;
-import com.gerdoc.escuela.repository.EstadoRepository;
-import com.gerdoc.escuela.service.EstadoService;
+import unicarga.Proyecto.model.Estado;
+import unicarga.Proyecto.repository.EstadoRepository;
+import unicarga.Proyecto.Servicio.EstadoServicio;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Servicio;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Servicio
 @RequiredArgsConstructor
-public class EstadoServiceImpl implements EstadoService
+public class EstadoServicioImpl implements EstadoServicio
 {
     private final EstadoRepository EstadoRepository;
 
