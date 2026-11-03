@@ -19,6 +19,7 @@ public class Recibe {
     @Column(name = "idRecibe", nullable = false, unique = true)
     private Long idRecibe;
 
+
     @JoinColumn(name = "idPedido", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Pedido pedido;
