@@ -6,6 +6,6 @@ import unicarga.Proyecto.model.Usuario;
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     Optional<Usuario> findByNombreUsuario(String nombreUsuario);
 }
