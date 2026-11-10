@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import unicarga.Proyecto.enums.Rol;
 
+
 @Data
 @Entity
 @NoArgsConstructor
