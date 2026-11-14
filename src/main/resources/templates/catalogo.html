@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo | Panasonic UN1Carga+</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div th:replace="~{fragments/navbar :: navbar('catalogo')}"></div>
+
+  <main class="container py-4">
+    <h1 class="fw-bold text-center mb-3">¿Qué estás buscando?</h1>
+    <form class="mb-4" th:action="@{/catalogo}" method="get">
+      <input type="hidden" name="tab" th:value="${tabActiva != null ? tabActiva : 'productos'}" />
+      <div class="search-slate-wrap">
+        <i class="bi bi-search fs-5 me-2"></i>
+        <input type="text" name="q" th:value="${q}" placeholder="Buscar..." />
+      </div>
+    </form>
+
+    <div class="row g-4">
+      <div class="col-md-3 col-lg-2">
+        <div class="nav flex-column nav-pills gap-2">
+          <a th:href="@{/catalogo(tab='productos')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == null or tabActiva == 'productos'} ? ' active' : ''">Productos</a>
+          <a th:href="@{/catalogo(tab='transportes')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == 'transportes'} ? ' active' : ''">Transportes</a>
+          <a th:href="@{/catalogo(tab='clientes')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == 'clientes'} ? ' active' : ''">Clientes</a>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-lg-10">
+        <!-- Productos -->
+        <div th:if="${tabActiva == null or tabActiva == 'productos'}">
+          <div class="d-flex flex-wrap gap-3 mb-3">
+            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCrearProducto"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
+          </div>
+          <table class="table table-catalog">
+            <thead><tr><th>ID</th><th>Categoría</th><th>Nombre</th><th>Imagen</th><th>Acciones</th></tr></thead>
+            <tbody>
+              <tr th:each="p : ${productos}">
+                <td th:text="${p.id}">####</td>
+                <td th:text="${p.categoria}">Electrodoméstico</td>
+                <td th:text="${p.nombre}">Microondas</td>
+                <td>
+                  <img th:if="${p.imagenUrl != null}" th:src="@{${p.imagenUrl}}" alt="Producto" style="max-height: 50px;" />
+                  <i th:if="${p.imagenUrl == null}" class="bi bi-image fs-4 text-secondary"></i>
+                </td>
+                <td>
+                  <a th:href="@{/catalogo/productos/editar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
+                  <form th:action="@{/catalogo/productos/eliminar/{id}(id=${p.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Transportes -->
+        <div th:if="${tabActiva == 'transportes'}">
+          <div class="d-flex flex-wrap gap-3 mb-3">
+            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCrearUnidad"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
+          </div>
+          <table class="table table-catalog">
+            <thead><tr><th>ID</th><th>Tipo</th><th>Nombre</th><th>Imagen</th><th>Acciones</th></tr></thead>
+            <tbody>
+              <tr th:each="t : ${transportes}">
+                <td th:text="${t.id}">####</td>
+                <td th:text="${t.tipo}">Camioneta</td>
+                <td th:text="${t.nombre}">CAMIONETA 1 ½ TON</td>
+                <td>
+                  <img th:if="${t.imagenUrl != null}" th:src="@{${t.imagenUrl}}" alt="Unidad" style="max-height: 50px;" />
+                  <i th:if="${t.imagenUrl == null}" class="bi bi-truck fs-4 text-secondary"></i>
+                </td>
+                <td>
+                  <a th:href="@{/catalogo/transportes/editar/{id}(id=${t.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
+                  <form th:action="@{/catalogo/transportes/eliminar/{id}(id=${t.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Clientes -->
+        <div th:if="${tabActiva == 'clientes'}">
+          <div class="d-flex flex-wrap gap-3 mb-3">
+            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCrearCliente"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
+          </div>
+          <table class="table table-catalog">
+            <thead><tr><th>ID</th><th>Empresa</th><th>Ubicación</th><th>Acciones</th></tr></thead>
+            <tbody>
+              <tr th:each="c : ${clientes}">
+                <td th:text="${c.id}">####</td>
+                <td th:text="${c.empresa}">Elektra</td>
+                <td th:text="${c.ubicacion}">Ubicación</td>
+                <td>
+                  <a th:href="@{/catalogo/clientes/editar/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
+                  <form th:action="@{/catalogo/clientes/eliminar/{id}(id=${c.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Crear Producto -->
+  <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-2 rounded-4">
+        <div class="modal-header modal-blue-header py-3">
+          <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Crear Producto</h2>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal">&times;</button>
+        </div>
+        <form th:action="@{/catalogo/productos/guardar}" method="post" enctype="multipart/form-data">
+          <div class="modal-body p-4">
+            <div class="row g-4 align-items-center">
+              <div class="col-md-6">
+                <div class="mb-3"><label class="fw-bold mb-1">Nombre</label><input type="text" name="nombre" class="form-control input-blue-outline" required /></div>
+                <div class="mb-4"><label class="fw-bold mb-1">Categoría</label><input type="text" name="categoria" class="form-control input-blue-outline" required /></div>
+                <div class="text-center">
+                  <label class="upload-zone" style="cursor: pointer;">
+                    <i class="bi bi-upload fs-1 mb-1"></i>
+                    <span class="small">Subir Imagen<br/>(Opcional)</span>
+                    <input type="file" name="imagen" accept="image/*" class="d-none" />
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="medidas-box">
+                  <span class="medidas-title">Medidas</span>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" name="largo" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" name="ancho" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" name="alto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="0.1" name="peso" class="form-control input-blue-outline text-center" required /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 justify-content-center pb-4">
+            <button type="submit" class="btn btn-panasonic px-5">CREAR</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Crear Unidad -->
+  <div class="modal fade" id="modalCrearUnidad" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-2 rounded-4">
+        <div class="modal-header modal-blue-header py-3">
+          <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Crear Unidad</h2>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal">&times;</button>
+        </div>
+        <form th:action="@{/catalogo/transportes/guardar}" method="post" enctype="multipart/form-data">
+          <div class="modal-body p-4">
+            <div class="row g-4 align-items-center">
+              <div class="col-md-6">
+                <div class="mb-3"><label class="fw-bold mb-1">Tipo</label><input type="text" name="tipo" class="form-control input-blue-outline" required /></div>
+                <div class="mb-4"><label class="fw-bold mb-1">Nombre</label><input type="text" name="nombre" class="form-control input-blue-outline" required /></div>
+                <div class="text-center">
+                  <label class="upload-zone" style="cursor: pointer;">
+                    <i class="bi bi-upload fs-1 mb-1"></i>
+                    <span class="small">Subir Imagen<br/>(Opcional)</span>
+                    <input type="file" name="imagen" accept="image/*" class="d-none" />
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="medidas-box">
+                  <span class="medidas-title">Medidas</span>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" name="largo" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" name="ancho" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" name="alto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="1" name="peso" class="form-control input-blue-outline text-center" required /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 justify-content-center pb-4">
+            <button type="submit" class="btn btn-panasonic px-5">CREAR</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Crear Cliente -->
+  <div class="modal fade" id="modalCrearCliente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-2 rounded-4">
+        <div class="modal-header modal-blue-header py-3">
+          <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Crear Cliente</h2>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal">&times;</button>
+        </div>
+        <form th:action="@{/catalogo/clientes/guardar}" method="post">
+          <div class="modal-body p-4 text-center">
+            <div class="mb-4"><label class="fw-bold mb-1">Empresa</label><input type="text" name="empresa" class="form-control input-blue-outline text-center" required /></div>
+            <div class="mb-3"><label class="fw-bold mb-1">Ubicación</label><input type="text" name="ubicacion" class="form-control input-blue-outline text-center" required /></div>
+          </div>
+          <div class="modal-footer border-0 justify-content-center pb-4">
+            <button type="submit" class="btn btn-panasonic px-5">CREAR</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

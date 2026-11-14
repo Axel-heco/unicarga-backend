@@ -16,7 +16,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional(readOnly = true)
     public Usuario login(String correoUsuario, String contraUsuario) {
-        Usuario usuario = usuarioRepository.findByCorreo(correoUsuario)
+        Usuario usuario = usuarioRepository.findByCorreoUsuario(correoUsuario)
                 .orElseThrow(() -> new ResourcesNotFoundException("Email o contraseña incorrectos"));
         if (!usuario.getContraUsuario().equals(contraUsuario)) {
             throw new ResourcesNotFoundException("Email o contraseña incorrectos");
