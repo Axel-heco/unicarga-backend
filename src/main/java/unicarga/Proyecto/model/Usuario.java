@@ -30,5 +30,5 @@ public class Usuario {
 
     @Column(name = "rol", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Rol rol;
+    public Rol rol;
 }

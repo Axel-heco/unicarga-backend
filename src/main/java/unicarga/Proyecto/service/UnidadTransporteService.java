@@ -10,7 +10,7 @@ public interface UnidadTransporteService {
     // Consultar todos las UnidadTransportes
     List<UnidadTransporte> findAll();
     // Consultar una UnidadTransporte por ID
-    Optional<UnidadTransporte> findById(Long id);
+    UnidadTransporte findById(Long id);
     // Guardar o actualizar una UnidadTransporte
     UnidadTransporte save(UnidadTransporte UnidadTransporte);
     // Eliminar una UnidadTransporte por ID
