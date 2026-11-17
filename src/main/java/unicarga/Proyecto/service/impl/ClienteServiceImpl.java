@@ -6,16 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 import unicarga.Proyecto.model.Cliente;
 import unicarga.Proyecto.repository.ClienteRepository;
 import unicarga.Proyecto.service.ClienteService;
+import unicarga.Proyecto.exceptions.ResourcesNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 
 public class ClienteServiceImpl implements ClienteService {
 
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -25,12 +25,29 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional
-    public Optional<Cliente> findClienteById(long id) {
-        return Optional.empty();
+    public Cliente findClienteById(long id) {
+        return clienteRepository.findById(id)
+                .orElseThrow(()-> new ResourcesNotFoundException("Cliente no encontrado"));
     }
 
     @Override
-    public Optional<Cliente> findClienteByEmail(String email) {
-        return Optional.empty();
+    @Transactional
+    public Cliente save(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    @Override
+    public Cliente findByEmpresa(String empresa) {
+        return clienteRepository.findByEmpresa(empresa);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        clienteRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existById(long id) {
+        return clienteRepository.existsById(id);
     }
 }

@@ -7,10 +7,22 @@ import java.util.Optional;
 
 public interface ClienteService {
 
+    //Consultar la lista completa de clientes
     List<Cliente> findAll();
 
     //Consultar Ciente por ID
-    Optional<Cliente> findClienteById(long id);
+    Cliente findClienteById(long id);
 
-    Optional<Cliente> findClienteByEmail(String email);
+    //Guardar Cliente
+    Cliente save(Cliente cliente);
+
+    //Buscar Cliente por Empresa
+    Cliente findByEmpresa(String empresa);
+
+    //Borrar cliente por ID
+    void deleteById(long id);
+
+    //Busca si existe un cliente por ID
+    boolean existById(long id);
+
 }
