@@ -31,7 +31,7 @@ public class Pedido {
     @Column(name = "espacioLibre", nullable = false, precision = 10, scale = 2)
     private BigDecimal espacioLibre;
 
-    @Column(name = "Estado", nullable = false)
+    @Column(name = "estado", nullable = false)
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
