@@ -53,7 +53,6 @@ public class UnidadTransporteServiceImpl implements UnidadTransporteService {
         BigDecimal altoTransporte = unidadTransporte.getAltoTransporte();
         BigDecimal anchoTransporte = unidadTransporte.getAnchoTransporte();
         BigDecimal largoTransporte = unidadTransporte.getLargoTransporte();
-        BigDecimal volumen = altoTransporte.multiply(anchoTransporte).multiply(largoTransporte);
-        return volumen;
+        return altoTransporte.multiply(anchoTransporte).multiply(largoTransporte);
     }
 }

@@ -9,5 +9,5 @@ public enum Rol {
     EMPLEADO("Empleado"),
     ADMINISTRADOR("Administrador");
 
-    private String descripcion;
+    private final String descripcion;
 }

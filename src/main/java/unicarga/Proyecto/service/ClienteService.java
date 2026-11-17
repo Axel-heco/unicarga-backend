@@ -1,9 +1,7 @@
 package unicarga.Proyecto.service;
 
 import unicarga.Proyecto.model.Cliente;
-
 import java.util.List;
-import java.util.Optional;
 
 public interface ClienteService {
 

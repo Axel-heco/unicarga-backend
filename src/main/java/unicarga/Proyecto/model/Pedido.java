@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import unicarga.Proyecto.enums.Estado;
-import unicarga.Proyecto.enums.Rol;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 
-    @JoinColumn(name = "idUnidad", nullable = false)
+    @JoinColumn(name = "idTransporte", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private UnidadTransporte unidadTransporte;
 }

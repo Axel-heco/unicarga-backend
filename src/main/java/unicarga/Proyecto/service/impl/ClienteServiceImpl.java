@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
@@ -38,7 +37,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente findByEmpresa(String empresa) {
-        return clienteRepository.findByEmpresa(empresa);
+        return clienteRepository.findByEmpresa(empresa)
+                .orElseThrow(()-> new ResourcesNotFoundException("Cliente no encontrado"));
     }
 
     @Override
