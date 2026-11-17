@@ -11,7 +11,7 @@ public interface RecibeService
     // Consultar todos los Recibes
     List<Recibe> findAll();
     // Consultar un Recibe por ID
-    Optional<Recibe> findById(Long id);
+    Recibe findById(Long id);
     // Guardar o actualizar un Recibe
     Recibe save(Recibe Recibe);
     // Eliminar un Recibe por ID

@@ -2,6 +2,7 @@ package unicarga.Proyecto.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import unicarga.Proyecto.exceptions.ResourcesNotFoundException;
 import unicarga.Proyecto.model.UnidadTransporte;
 import unicarga.Proyecto.repository.UnidadTransporteRepository;
@@ -20,6 +21,7 @@ public class UnidadTransporteServiceImpl implements UnidadTransporteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UnidadTransporte findById(Long id) {
         return unidadTransporteRepository.findById(id)
                 .orElseThrow(() -> new ResourcesNotFoundException("No se encontro la UnidadTransporte"));
