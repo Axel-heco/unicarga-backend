@@ -47,6 +47,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existById(long id) {
         return clienteRepository.existsById(id);
     }
