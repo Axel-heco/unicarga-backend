@@ -3,6 +3,7 @@ package unicarga.Proyecto.service.impl;
 import unicarga.Proyecto.model.Producto;
 import unicarga.Proyecto.repository.ProductoRepository;
 import unicarga.Proyecto.service.ProductoService;
+import unicarga.Proyecto.exceptions.ResourcesNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +26,9 @@ public class ProductoServiceImpl implements ProductoService
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Producto> findById(Long id)
-    {
-        return ProductoRepository.findById(id);
+    public Producto findById(Long id) {
+        return ProductoRepository.findById(id)
+                .orElseThrow(() -> new ResourcesNotFoundException("No se encontro el producto"));
     }
 
     @Override

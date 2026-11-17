@@ -11,7 +11,7 @@ public interface ProductoService
     // Consultar todos los Productos
     List<Producto> findAll();
     // Consultar un Producto por ID
-    Optional<Producto> findById(Long id);
+    Producto findById(Long id);
     // Guardar o actualizar un Producto
     Producto save(Producto Producto);
     // Eliminar un Producto por ID

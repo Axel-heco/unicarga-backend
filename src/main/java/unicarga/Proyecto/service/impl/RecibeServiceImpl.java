@@ -3,6 +3,7 @@ package unicarga.Proyecto.service.impl;
 import unicarga.Proyecto.model.Recibe;
 import unicarga.Proyecto.repository.RecibeRepository;
 import unicarga.Proyecto.service.RecibeService;
+import unicarga.Proyecto.exceptions.ResourcesNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +26,9 @@ public class RecibeServiceImpl implements RecibeService
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Recibe> findById(Long id)
-    {
-        return RecibeRepository.findById(id);
+    public Recibe findById(Long id) {
+        return RecibeRepository.findById(id)
+                .orElseThrow(() -> new ResourcesNotFoundException("No se encontro el recibe"));
     }
 
     @Override
