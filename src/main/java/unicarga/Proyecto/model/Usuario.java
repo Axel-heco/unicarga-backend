@@ -28,7 +28,7 @@ public class Usuario {
     @Column(name = "correoUsuario", nullable = false, length = 150, unique = true)
     private String correoUsuario;
 
-    @Column(name = "rol", nullable = false)
+    @Column(name = "Rol", nullable = false)
     @Enumerated(EnumType.STRING)
-    public Rol rol;
+    private Rol rol;
 }

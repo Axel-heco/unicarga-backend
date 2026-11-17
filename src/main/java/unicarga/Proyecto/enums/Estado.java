@@ -9,5 +9,5 @@ public enum Estado {
     PENDIENTE("Pendiente"),
     FINALIZADO("Finalizado");
 
-    private String descripcion;
+    private final String descripcion;
 }

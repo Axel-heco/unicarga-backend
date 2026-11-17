@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class UnidadTransporte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUnidad", unique = true, nullable = false)
+    @Column(name = "idTransporte", unique = true, nullable = false)
     private Long idUnidadTransporte;
 
     @Column(name = "tipoTransporte", nullable = false, length = 100)
