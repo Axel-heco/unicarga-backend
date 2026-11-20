@@ -20,7 +20,7 @@ public class Producto {
     @Column(name = "idProducto", nullable = false, unique = true)
     private Long idProducto;
 
-    @Column(name = "nombreProducto",  nullable = false, length = 150)
+    @Column(name = "nombreProducto",  nullable = false, length = 150, unique = true)
     private String nombreProducto;
 
     @Column(name = "categoria",  nullable = false, length = 100)
