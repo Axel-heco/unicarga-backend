@@ -41,7 +41,7 @@ CREATE TABLE UnidadTransporte (
 );
 
 CREATE TABLE Pedido (
-                        idPedido INT NOT NULL,
+                        idPedido INT NOT NULL AUTO_INCREMENT,
                         total INT NOT NULL DEFAULT 0,
                         espacioUsado DECIMAL(14,2) NOT NULL DEFAULT 0,
                         espacioLibre DECIMAL(14,2) NOT NULL DEFAULT 0,
@@ -53,15 +53,15 @@ CREATE TABLE Pedido (
                         CONSTRAINT fk_pedido_usuario FOREIGN KEY (idUsuario)
                             REFERENCES Usuario(idUsuario)
                             ON UPDATE CASCADE
-                            ON DELETE CASCADE,
+                            ON DELETE RESTRICT,
                         CONSTRAINT fk_pedido_unidadTransporte FOREIGN KEY (idTransporte)
                             REFERENCES UnidadTransporte (idTransporte)
                             ON UPDATE CASCADE
-                            ON DELETE CASCADE
+                            ON DELETE RESTRICT
 );
 
 CREATE TABLE Recibe (
-                        idRecibe INT NOT NULL,
+                        idRecibe INT NOT NULL AUTO_INCREMENT,
                         idPedido INT NOT NULL,
                         idCliente INT NOT NULL,
                         PRIMARY KEY (idRecibe),
@@ -76,7 +76,7 @@ CREATE TABLE Recibe (
 );
 
 CREATE TABLE Contiene (
-                          idContiene INT NOT NULL,
+                          idContiene INT NOT NULL AUTO_INCREMENT,
                           idPedido INT NOT NULL,
                           idProducto INT NOT NULL,
                           totalProducto INT NOT NULL DEFAULT 1,
@@ -84,9 +84,9 @@ CREATE TABLE Contiene (
                           CONSTRAINT fk_contiene_pedido FOREIGN KEY (idPedido)
                               REFERENCES Pedido (idPedido)
                               ON UPDATE CASCADE
-                              ON DELETE CASCADE,
+                              ON DELETE RESTRICT,
                           CONSTRAINT fk_contiene_producto FOREIGN KEY (idProducto)
                               REFERENCES Producto (idProducto)
                               ON UPDATE CASCADE
-                              ON DELETE CASCADE
+                              ON DELETE RESTRICT
 );
