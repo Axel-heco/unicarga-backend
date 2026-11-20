@@ -2,7 +2,9 @@ package unicarga.Proyecto.service;
 
 
 import unicarga.Proyecto.model.Producto;
+import unicarga.Proyecto.model.UnidadTransporte;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +20,8 @@ public interface ProductoService
     void deleteById(Long id);
     // Verificar si existe un Producto
     boolean existsById(Long id);
+    // Calcular Volumen de Producto
+    BigDecimal calcularVolumen(Producto producto);
+    // Consultar por categoria
+    List<Producto> findByCategoria(String categoria);
 }
