@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import unicarga.Proyecto.enums.Rol;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Data
@@ -23,6 +24,7 @@ public class Usuario {
     private String nombreUsuario;
 
     @Column(name = "contraUsuario", nullable = false, length = 200)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String contraUsuario;
 
     @Column(name = "correoUsuario", nullable = false, length = 150, unique = true)

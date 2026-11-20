@@ -1,9 +1,12 @@
 package unicarga.Proyecto.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import unicarga.Proyecto.model.Recibe;
 
-@Repository
-public interface RecibeRepository extends JpaRepository<Recibe, Long>{
+import java.util.Optional;
+
+public interface RecibeRepository extends JpaRepository<Recibe, Long> {
+    Optional<Recibe> findFirstByPedido_IdPedido(Long idPedido);
+
+    void deleteByPedido_IdPedido(Long idPedido);
 }

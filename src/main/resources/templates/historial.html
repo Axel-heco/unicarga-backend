@@ -12,9 +12,12 @@
   <div th:replace="~{fragments/navbar :: navbar('historial')}"></div>
 
   <main class="container py-4">
+    <div th:replace="~{fragments/alertas :: alertas}"></div>
+
     <h1 class="fw-bold text-center mb-3">Buscar por ID:</h1>
     <form class="mb-4" th:action="@{/historial}" method="get">
       <div class="search-slate-wrap">
+        <i class="bi bi-search fs-5 me-2"></i>
         <input type="text" name="idPedido" th:value="${idPedido}" placeholder="ID Pedido..." />
       </div>
     </form>
@@ -26,18 +29,19 @@
         </thead>
         <tbody>
           <tr th:each="h : ${historialPedidos}">
-            <td><a th:href="@{/historial/{id}(id=${h.id})}" class="fw-bold text-decoration-none" style="color: var(--panasonic-blue);" th:text="${h.id}">####</a></td>
-            <td th:text="${h.productosTotales}">23</td>
-            <td th:text="${#temporals.format(h.fecha, 'dd-MM-yyyy')}">23-01-2027</td>
+            <td><a th:href="@{/historial/{id}(id=${h.idPedido})}" class="fw-bold text-decoration-none" style="color: var(--panasonic-blue);" th:text="${h.idPedido}">1</a></td>
+            <td th:text="${h.total}">23</td>
+            <td th:text="${#temporals.format(h.fechaPedido, 'dd-MM-yyyy')}">23-01-2027</td>
             <td th:text="${h.espacioUsado} + ' m³'">15 m³</td>
             <td th:text="${h.espacioLibre} + ' m³'">2 m³</td>
             <td>
-              <a th:href="@{/pedidos/editar/{id}(id=${h.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
-              <form th:action="@{/historial/eliminar/{id}(id=${h.id})}" method="post" class="d-inline">
+              <a th:href="@{/pedidos/editar/{id}(id=${h.idPedido})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
+              <form th:action="@{/historial/eliminar/{id}(id=${h.idPedido})}" method="post" class="d-inline" onsubmit="return confirm('¿Borrar este pedido del historial?');">
                 <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
               </form>
             </td>
           </tr>
+          <tr th:if="${#lists.isEmpty(historialPedidos)}"><td colspan="6" class="text-muted py-4">No hay pedidos finalizados.</td></tr>
         </tbody>
       </table>
     </div>

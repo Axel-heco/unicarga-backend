@@ -12,16 +12,18 @@
   <div th:replace="~{fragments/navbar :: navbar('pedido')}"></div>
 
   <main class="container py-4">
+    <div th:replace="~{fragments/alertas :: alertas}"></div>
+
     <div class="row g-4 align-items-stretch">
       <div class="col-lg-5">
         <div class="wire-box h-100">
           <div class="text-center fw-bold fs-5 py-4">Pedidos Pendientes</div>
           <a th:each="p : ${pedidosPendientes}"
-             th:href="@{/pedidos(selectedId=${p.id})}"
+             th:href="@{/pedidos(selectedId=${p.idPedido})}"
              class="wire-list-row text-decoration-none text-dark"
-             th:classappend="${pedidoSeleccionado != null and pedidoSeleccionado.id == p.id} ? ' bg-light fw-bold' : ''">
-            <span th:text="'ID: ' + ${p.id}">ID: 1</span>
-            <span th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy')}">dd/mm/aaaa</span>
+             th:classappend="${pedidoSeleccionado != null and pedidoSeleccionado.idPedido == p.idPedido} ? ' bg-light fw-bold' : ''">
+            <span th:text="'ID: ' + ${p.idPedido}">ID: 1</span>
+            <span th:text="${#temporals.format(p.fechaPedido, 'dd/MM/yyyy')}">dd/mm/aaaa</span>
           </a>
           <div th:if="${#lists.isEmpty(pedidosPendientes)}" class="p-4 text-center text-muted">
             No hay pedidos pendientes.
@@ -31,25 +33,51 @@
 
       <div class="col-lg-7 d-flex flex-column">
         <div class="wire-box text-center fw-bold fs-5 py-3 mb-3"
-             th:text="${pedidoSeleccionado != null} ? 'Pedido ID: ' + ${pedidoSeleccionado.id} : 'Pedido ID: —'">
+             th:text="${pedidoSeleccionado != null} ? 'Pedido ID: ' + ${pedidoSeleccionado.idPedido} : 'Pedido ID: —'">
           Pedido ID: 1
         </div>
         <div class="wire-box flex-grow-1 d-flex flex-column justify-content-center align-items-center p-4 mb-4" style="min-height: 280px;">
-          <p th:if="${pedidoSeleccionado == null}" class="mb-0 fs-5 text-muted">Información general del pedido</p>
+          <p th:if="${pedidoSeleccionado == null}" class="mb-0 fs-5 text-muted">Selecciona un pedido para ver su información</p>
           <div th:if="${pedidoSeleccionado != null}" class="w-100">
-            <p class="mb-2"><strong>Fecha:</strong> <span th:text="${#temporals.format(pedidoSeleccionado.fecha, 'dd/MM/yyyy')}"></span></p>
-            <p class="mb-2"><strong>Cliente:</strong> <span th:text="${pedidoSeleccionado.cliente != null ? pedidoSeleccionado.cliente.empresa : 'Sin asignar'}"></span></p>
-            <p class="mb-0"><strong>Productos registrados:</strong> <span th:text="${#lists.size(pedidoSeleccionado.detalles)}">0</span></p>
+            <p class="mb-2"><strong>Fecha:</strong> <span th:text="${#temporals.format(pedidoSeleccionado.fechaPedido, 'dd/MM/yyyy')}"></span></p>
+            <p class="mb-2"><strong>Cliente:</strong> <span th:text="${clienteSeleccionado != null ? clienteSeleccionado.empresa : 'Sin asignar'}"></span></p>
+            <p class="mb-2"><strong>Creado por:</strong> <span th:text="${pedidoSeleccionado.usuario.nombreUsuario}"></span></p>
+            <p class="mb-0"><strong>Productos registrados:</strong> <span th:text="${pedidoSeleccionado.total}">0</span></p>
           </div>
         </div>
         <div class="d-flex justify-content-center gap-4 flex-wrap">
-          <a th:if="${pedidoSeleccionado != null}" th:href="@{/pedidos/editar/{id}(id=${pedidoSeleccionado.id})}" class="btn btn-panasonic">Editar</a>
+          <a th:if="${pedidoSeleccionado != null}" th:href="@{/pedidos/editar/{id}(id=${pedidoSeleccionado.idPedido})}" class="btn btn-panasonic">Editar</a>
           <button th:if="${pedidoSeleccionado == null}" type="button" class="btn btn-panasonic-grey" disabled>Editar</button>
-          <a th:href="@{/pedidos/nuevo}" class="btn btn-panasonic">Nuevo pedido</a>
+          <button type="button" class="btn btn-panasonic" data-bs-toggle="modal" data-bs-target="#modalNuevoPedido">Nuevo pedido</button>
         </div>
       </div>
     </div>
   </main>
+
+  <!-- Modal Nuevo pedido: selección de cliente -->
+  <div class="modal fade" id="modalNuevoPedido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-2 rounded-4">
+        <div class="modal-header modal-blue-header py-3">
+          <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Nuevo Pedido</h2>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Cerrar">&times;</button>
+        </div>
+        <form th:action="@{/pedidos/nuevo}" method="post">
+          <div class="modal-body p-4 text-center">
+            <label for="clienteId" class="fw-bold mb-2">Cliente</label>
+            <select id="clienteId" name="clienteId" class="form-select input-blue-outline text-center" required th:disabled="${#lists.isEmpty(clientes)}">
+              <option value="" selected disabled>Selecciona un cliente</option>
+              <option th:each="c : ${clientes}" th:value="${c.idCliente}" th:text="${c.empresa + ' — ' + c.ubicacion}">Empresa</option>
+            </select>
+            <p th:if="${#lists.isEmpty(clientes)}" class="small text-muted mt-3 mb-0">Registra un cliente en el Catálogo para crear pedidos.</p>
+          </div>
+          <div class="modal-footer border-0 justify-content-center pb-4">
+            <button type="submit" class="btn btn-panasonic px-5" th:disabled="${#lists.isEmpty(clientes)}">Crear pedido</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

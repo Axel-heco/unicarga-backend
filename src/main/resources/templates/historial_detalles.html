@@ -12,7 +12,7 @@
   <header class="app-navbar d-flex justify-content-between align-items-center flex-wrap gap-2">
     <a th:href="@{/bienvenida}" class="panasonic-wordmark">Panasonic</a>
     <h2 class="fw-bold mb-0">Detalles Pedido</h2>
-    <div><span class="fw-bold" style="color: var(--panasonic-blue);">Fecha:</span> <strong class="ms-1" th:text="${#temporals.format(pedido.fecha, 'dd-MM-yyyy')}">23-01-2027</strong></div>
+    <div><span class="fw-bold" style="color: var(--panasonic-blue);">Fecha:</span> <strong class="ms-1" th:text="${#temporals.format(pedido.fechaPedido, 'dd-MM-yyyy')}">23-01-2027</strong></div>
   </header>
 
   <main class="container py-4">
@@ -24,26 +24,26 @@
               <tr><th>ID</th><th>Nombre</th><th>Cantidad</th><th>Categoría</th></tr>
             </thead>
             <tbody>
-              <tr th:each="det : ${pedido.detalles}">
-                <td th:text="${det.producto.id}">####</td>
-                <td th:text="${det.producto.nombre}">Nombre</td>
-                <td th:text="${det.cantidad}">0</td>
+              <tr th:each="det : ${detalles}">
+                <td th:text="${det.producto.idProducto}">1</td>
+                <td th:text="${det.producto.nombreProducto}">Nombre</td>
+                <td th:text="${det.totalProducto}">0</td>
                 <td th:text="${det.producto.categoria}">Categoría</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="mt-4">
-          <p class="mb-2 fs-5"><span class="fw-bold" style="color: var(--panasonic-blue);">Productos Totales:</span> <strong class="ms-2" th:text="${productosTotales}">23</strong></p>
-          <p class="mb-0 fs-5"><span class="fw-bold" style="color: var(--panasonic-blue);">ID Pedido:</span> <strong class="ms-2" th:text="${pedido.id}">####</strong></p>
+          <p class="mb-2 fs-5"><span class="fw-bold" style="color: var(--panasonic-blue);">Productos Totales:</span> <strong class="ms-2" th:text="${pedido.total}">23</strong></p>
+          <p class="mb-0 fs-5"><span class="fw-bold" style="color: var(--panasonic-blue);">ID Pedido:</span> <strong class="ms-2" th:text="${pedido.idPedido}">1</strong></p>
         </div>
       </div>
 
       <div class="col-lg-4 text-center">
-        <div class="mb-4"><div class="metric-label">Unidad recomendada:</div><div class="metric-value" th:text="'“' + ${pedido.unidadRecomendada} + '”'">“Camión”</div></div>
+        <div class="mb-4"><div class="metric-label">Unidad recomendada:</div><div class="metric-value" th:text="'“' + ${pedido.unidadTransporte.tipoTransporte} + '”'">“Camión”</div></div>
         <div class="mb-4"><div class="metric-label">Espacio Usado:</div><div class="metric-value" th:text="${pedido.espacioUsado} + ' m³'">15 m³</div></div>
         <div class="mb-4"><div class="metric-label">Espacio Libre:</div><div class="metric-value" th:text="${pedido.espacioLibre} + ' m³'">2 m³</div></div>
-        <div class="mb-4"><div class="metric-label">%Espacio Usado:</div><div class="metric-value" th:text="${pedido.porcentajeUsado} + '%'">75%</div></div>
+        <div class="mb-4"><div class="metric-label">%Espacio Usado:</div><div class="metric-value" th:text="${porcentajeUsado} + '%'">75%</div></div>
       </div>
     </div>
 

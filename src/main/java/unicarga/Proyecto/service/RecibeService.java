@@ -1,13 +1,11 @@
 package unicarga.Proyecto.service;
 
-
 import unicarga.Proyecto.model.Recibe;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface RecibeService
-{
+public interface RecibeService {
     // Consultar todos los Recibes
     List<Recibe> findAll();
     // Consultar un Recibe por ID
@@ -18,4 +16,6 @@ public interface RecibeService
     void deleteById(Long id);
     // Verificar si existe un Recibe
     boolean existsById(Long id);
+    // NUEVO: Consultar el Recibe (cliente) de un Pedido
+    Optional<Recibe> findByPedidoId(Long idPedido);
 }

@@ -12,9 +12,11 @@
   <div th:replace="~{fragments/navbar :: navbar('catalogo')}"></div>
 
   <main class="container py-4">
+    <div th:replace="~{fragments/alertas :: alertas}"></div>
+
     <h1 class="fw-bold text-center mb-3">¿Qué estás buscando?</h1>
     <form class="mb-4" th:action="@{/catalogo}" method="get">
-      <input type="hidden" name="tab" th:value="${tabActiva != null ? tabActiva : 'productos'}" />
+      <input type="hidden" name="tab" th:value="${tabActiva}" />
       <div class="search-slate-wrap">
         <i class="bi bi-search fs-5 me-2"></i>
         <input type="text" name="q" th:value="${q}" placeholder="Buscar..." />
@@ -24,122 +26,132 @@
     <div class="row g-4">
       <div class="col-md-3 col-lg-2">
         <div class="nav flex-column nav-pills gap-2">
-          <a th:href="@{/catalogo(tab='productos')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == null or tabActiva == 'productos'} ? ' active' : ''">Productos</a>
+          <a th:href="@{/catalogo(tab='productos')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == 'productos'} ? ' active' : ''">Productos</a>
           <a th:href="@{/catalogo(tab='transportes')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == 'transportes'} ? ' active' : ''">Transportes</a>
           <a th:href="@{/catalogo(tab='clientes')}" class="nav-link cat-side-pill" th:classappend="${tabActiva == 'clientes'} ? ' active' : ''">Clientes</a>
         </div>
       </div>
 
       <div class="col-md-9 col-lg-10">
-        <!-- Productos -->
-        <div th:if="${tabActiva == null or tabActiva == 'productos'}">
+
+        <!-- ===== Productos ===== -->
+        <div th:if="${tabActiva == 'productos'}">
           <div class="d-flex flex-wrap gap-3 mb-3">
-            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCrearProducto"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
+            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalProducto"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
           </div>
-          <table class="table table-catalog">
-            <thead><tr><th>ID</th><th>Categoría</th><th>Nombre</th><th>Imagen</th><th>Acciones</th></tr></thead>
-            <tbody>
-              <tr th:each="p : ${productos}">
-                <td th:text="${p.id}">####</td>
-                <td th:text="${p.categoria}">Electrodoméstico</td>
-                <td th:text="${p.nombre}">Microondas</td>
-                <td>
-                  <img th:if="${p.imagenUrl != null}" th:src="@{${p.imagenUrl}}" alt="Producto" style="max-height: 50px;" />
-                  <i th:if="${p.imagenUrl == null}" class="bi bi-image fs-4 text-secondary"></i>
-                </td>
-                <td>
-                  <a th:href="@{/catalogo/productos/editar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
-                  <form th:action="@{/catalogo/productos/eliminar/{id}(id=${p.id})}" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-catalog">
+              <thead><tr><th>ID</th><th>Categoría</th><th>Nombre</th><th>Largo</th><th>Ancho</th><th>Alto</th><th>Peso</th><th>Acciones</th></tr></thead>
+              <tbody>
+                <tr th:each="p : ${productos}">
+                  <td th:text="${p.idProducto}">1</td>
+                  <td th:text="${p.categoria}">Electrodoméstico</td>
+                  <td th:text="${p.nombreProducto}">Microondas</td>
+                  <td th:text="${p.largoProducto}">0.00</td>
+                  <td th:text="${p.anchoProducto}">0.00</td>
+                  <td th:text="${p.altoProducto}">0.00</td>
+                  <td th:text="${p.pesoProducto}">0.00</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalProducto"
+                            th:data-id-producto="${p.idProducto}" th:data-nombre-producto="${p.nombreProducto}" th:data-categoria="${p.categoria}"
+                            th:data-largo-producto="${p.largoProducto}" th:data-ancho-producto="${p.anchoProducto}"
+                            th:data-alto-producto="${p.altoProducto}" th:data-peso-producto="${p.pesoProducto}">Actualizar</button>
+                    <form th:action="@{/catalogo/productos/eliminar/{id}(id=${p.idProducto})}" method="post" class="d-inline" onsubmit="return confirm('¿Borrar este producto?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
+                    </form>
+                  </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(productos)}"><td colspan="8" class="text-muted py-4">No hay productos registrados.</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <!-- Transportes -->
+        <!-- ===== Transportes ===== -->
         <div th:if="${tabActiva == 'transportes'}">
           <div class="d-flex flex-wrap gap-3 mb-3">
-            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCrearUnidad"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
+            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalUnidad"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
           </div>
-          <table class="table table-catalog">
-            <thead><tr><th>ID</th><th>Tipo</th><th>Nombre</th><th>Imagen</th><th>Acciones</th></tr></thead>
-            <tbody>
-              <tr th:each="t : ${transportes}">
-                <td th:text="${t.id}">####</td>
-                <td th:text="${t.tipo}">Camioneta</td>
-                <td th:text="${t.nombre}">CAMIONETA 1 ½ TON</td>
-                <td>
-                  <img th:if="${t.imagenUrl != null}" th:src="@{${t.imagenUrl}}" alt="Unidad" style="max-height: 50px;" />
-                  <i th:if="${t.imagenUrl == null}" class="bi bi-truck fs-4 text-secondary"></i>
-                </td>
-                <td>
-                  <a th:href="@{/catalogo/transportes/editar/{id}(id=${t.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
-                  <form th:action="@{/catalogo/transportes/eliminar/{id}(id=${t.id})}" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-catalog">
+              <thead><tr><th>ID</th><th>Tipo</th><th>Largo</th><th>Ancho</th><th>Alto</th><th>Peso</th><th>Acciones</th></tr></thead>
+              <tbody>
+                <tr th:each="t : ${transportes}">
+                  <td th:text="${t.idUnidadTransporte}">1</td>
+                  <td th:text="${t.tipoTransporte}">Camioneta</td>
+                  <td th:text="${t.largoTransporte}">0.00</td>
+                  <td th:text="${t.anchoTransporte}">0.00</td>
+                  <td th:text="${t.altoTransporte}">0.00</td>
+                  <td th:text="${t.pesoTransporte}">0.00</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalUnidad"
+                            th:data-id-unidad-transporte="${t.idUnidadTransporte}" th:data-tipo-transporte="${t.tipoTransporte}"
+                            th:data-largo-transporte="${t.largoTransporte}" th:data-ancho-transporte="${t.anchoTransporte}"
+                            th:data-alto-transporte="${t.altoTransporte}" th:data-peso-transporte="${t.pesoTransporte}">Actualizar</button>
+                    <form th:action="@{/catalogo/transportes/eliminar/{id}(id=${t.idUnidadTransporte})}" method="post" class="d-inline" onsubmit="return confirm('¿Borrar esta unidad?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
+                    </form>
+                  </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(transportes)}"><td colspan="7" class="text-muted py-4">No hay unidades registradas.</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <!-- Clientes -->
+        <!-- ===== Clientes ===== -->
         <div th:if="${tabActiva == 'clientes'}">
           <div class="d-flex flex-wrap gap-3 mb-3">
-            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCrearCliente"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
+            <button type="button" class="crud-action-btn w-auto" data-bs-toggle="modal" data-bs-target="#modalCliente"><i class="bi bi-plus-circle"></i><span>Crear</span></button>
           </div>
-          <table class="table table-catalog">
-            <thead><tr><th>ID</th><th>Empresa</th><th>Ubicación</th><th>Acciones</th></tr></thead>
-            <tbody>
-              <tr th:each="c : ${clientes}">
-                <td th:text="${c.id}">####</td>
-                <td th:text="${c.empresa}">Elektra</td>
-                <td th:text="${c.ubicacion}">Ubicación</td>
-                <td>
-                  <a th:href="@{/catalogo/clientes/editar/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary">Actualizar</a>
-                  <form th:action="@{/catalogo/clientes/eliminar/{id}(id=${c.id})}" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-catalog">
+              <thead><tr><th>ID</th><th>Empresa</th><th>Ubicación</th><th>Acciones</th></tr></thead>
+              <tbody>
+                <tr th:each="c : ${clientes}">
+                  <td th:text="${c.idCliente}">1</td>
+                  <td th:text="${c.empresa}">Elektra</td>
+                  <td th:text="${c.ubicacion}">Ubicación</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalCliente"
+                            th:data-id-cliente="${c.idCliente}" th:data-empresa="${c.empresa}" th:data-ubicacion="${c.ubicacion}">Actualizar</button>
+                    <form th:action="@{/catalogo/clientes/eliminar/{id}(id=${c.idCliente})}" method="post" class="d-inline" onsubmit="return confirm('¿Borrar este cliente?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Borrar</button>
+                    </form>
+                  </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(clientes)}"><td colspan="4" class="text-muted py-4">No hay clientes registrados.</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Modal Crear Producto -->
-  <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-hidden="true">
+  <!-- Modal Producto (crear / actualizar) -->
+  <div class="modal fade" id="modalProducto" tabindex="-1" aria-hidden="true" data-id-field="idProducto" data-title-new="Crear Producto" data-title-edit="Actualizar Producto">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content border-2 rounded-4">
         <div class="modal-header modal-blue-header py-3">
           <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Crear Producto</h2>
-          <button type="button" class="btn-close-red" data-bs-dismiss="modal">&times;</button>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Cerrar">&times;</button>
         </div>
-        <form th:action="@{/catalogo/productos/guardar}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/catalogo/productos/guardar}" method="post">
+          <input type="hidden" name="idProducto" />
           <div class="modal-body p-4">
             <div class="row g-4 align-items-center">
               <div class="col-md-6">
-                <div class="mb-3"><label class="fw-bold mb-1">Nombre</label><input type="text" name="nombre" class="form-control input-blue-outline" required /></div>
-                <div class="mb-4"><label class="fw-bold mb-1">Categoría</label><input type="text" name="categoria" class="form-control input-blue-outline" required /></div>
-                <div class="text-center">
-                  <label class="upload-zone" style="cursor: pointer;">
-                    <i class="bi bi-upload fs-1 mb-1"></i>
-                    <span class="small">Subir Imagen<br/>(Opcional)</span>
-                    <input type="file" name="imagen" accept="image/*" class="d-none" />
-                  </label>
-                </div>
+                <div class="mb-3"><label class="fw-bold mb-1">Nombre</label><input type="text" name="nombreProducto" maxlength="150" class="form-control input-blue-outline" required /></div>
+                <div class="mb-3"><label class="fw-bold mb-1">Categoría</label><input type="text" name="categoria" maxlength="100" class="form-control input-blue-outline" required /></div>
               </div>
               <div class="col-md-6">
                 <div class="medidas-box">
                   <span class="medidas-title">Medidas</span>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" name="largo" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" name="ancho" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" name="alto" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="0.1" name="peso" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" min="0.01" name="largoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" min="0.01" name="anchoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" min="0.01" name="altoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="0.01" min="0.01" name="pesoProducto" class="form-control input-blue-outline text-center" required /></div>
                 </div>
               </div>
             </div>
@@ -152,35 +164,28 @@
     </div>
   </div>
 
-  <!-- Modal Crear Unidad -->
-  <div class="modal fade" id="modalCrearUnidad" tabindex="-1" aria-hidden="true">
+  <!-- Modal Unidad (crear / actualizar) -->
+  <div class="modal fade" id="modalUnidad" tabindex="-1" aria-hidden="true" data-id-field="idUnidadTransporte" data-title-new="Crear Unidad" data-title-edit="Actualizar Unidad">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content border-2 rounded-4">
         <div class="modal-header modal-blue-header py-3">
           <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Crear Unidad</h2>
-          <button type="button" class="btn-close-red" data-bs-dismiss="modal">&times;</button>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Cerrar">&times;</button>
         </div>
-        <form th:action="@{/catalogo/transportes/guardar}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/catalogo/transportes/guardar}" method="post">
+          <input type="hidden" name="idUnidadTransporte" />
           <div class="modal-body p-4">
             <div class="row g-4 align-items-center">
               <div class="col-md-6">
-                <div class="mb-3"><label class="fw-bold mb-1">Tipo</label><input type="text" name="tipo" class="form-control input-blue-outline" required /></div>
-                <div class="mb-4"><label class="fw-bold mb-1">Nombre</label><input type="text" name="nombre" class="form-control input-blue-outline" required /></div>
-                <div class="text-center">
-                  <label class="upload-zone" style="cursor: pointer;">
-                    <i class="bi bi-upload fs-1 mb-1"></i>
-                    <span class="small">Subir Imagen<br/>(Opcional)</span>
-                    <input type="file" name="imagen" accept="image/*" class="d-none" />
-                  </label>
-                </div>
+                <div class="mb-3"><label class="fw-bold mb-1">Tipo</label><input type="text" name="tipoTransporte" maxlength="100" class="form-control input-blue-outline" required /></div>
               </div>
               <div class="col-md-6">
                 <div class="medidas-box">
                   <span class="medidas-title">Medidas</span>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" name="largo" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" name="ancho" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" name="alto" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="1" name="peso" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" min="0.01" name="largoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" min="0.01" name="anchoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" min="0.01" name="altoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="0.01" min="0.01" name="pesoTransporte" class="form-control input-blue-outline text-center" required /></div>
                 </div>
               </div>
             </div>
@@ -193,18 +198,19 @@
     </div>
   </div>
 
-  <!-- Modal Crear Cliente -->
-  <div class="modal fade" id="modalCrearCliente" tabindex="-1" aria-hidden="true">
+  <!-- Modal Cliente (crear / actualizar) -->
+  <div class="modal fade" id="modalCliente" tabindex="-1" aria-hidden="true" data-id-field="idCliente" data-title-new="Crear Cliente" data-title-edit="Actualizar Cliente">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-2 rounded-4">
         <div class="modal-header modal-blue-header py-3">
           <h2 class="modal-title fw-bold mb-0" style="color: var(--panasonic-blue);">Crear Cliente</h2>
-          <button type="button" class="btn-close-red" data-bs-dismiss="modal">&times;</button>
+          <button type="button" class="btn-close-red" data-bs-dismiss="modal" aria-label="Cerrar">&times;</button>
         </div>
         <form th:action="@{/catalogo/clientes/guardar}" method="post">
+          <input type="hidden" name="idCliente" />
           <div class="modal-body p-4 text-center">
-            <div class="mb-4"><label class="fw-bold mb-1">Empresa</label><input type="text" name="empresa" class="form-control input-blue-outline text-center" required /></div>
-            <div class="mb-3"><label class="fw-bold mb-1">Ubicación</label><input type="text" name="ubicacion" class="form-control input-blue-outline text-center" required /></div>
+            <div class="mb-4"><label class="fw-bold mb-1">Empresa</label><input type="text" name="empresa" maxlength="150" class="form-control input-blue-outline text-center" required /></div>
+            <div class="mb-3"><label class="fw-bold mb-1">Ubicación</label><input type="text" name="ubicacion" maxlength="250" class="form-control input-blue-outline text-center" required /></div>
           </div>
           <div class="modal-footer border-0 justify-content-center pb-4">
             <button type="submit" class="btn btn-panasonic px-5">CREAR</button>
@@ -213,6 +219,26 @@
       </div>
     </div>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Un mismo modal sirve para crear y actualizar: el botón que lo abre manda los datos en data-*.
+    document.querySelectorAll('.modal[data-id-field]').forEach(function (modal) {
+      var idField = modal.dataset.idField;
+      modal.addEventListener('show.bs.modal', function (ev) {
+        var form = modal.querySelector('form');
+        form.reset();
+        form.elements[idField].value = '';
+        var datos = ev.relatedTarget ? ev.relatedTarget.dataset : {};
+        Object.keys(datos).forEach(function (clave) {
+          var campo = form.elements[clave];
+          if (campo) campo.value = datos[clave];
+        });
+        var editando = !!datos[idField];
+        modal.querySelector('.modal-title').textContent = editando ? modal.dataset.titleEdit : modal.dataset.titleNew;
+        form.querySelector('button[type=submit]').textContent = editando ? 'ACTUALIZAR' : 'CREAR';
+      });
+    });
+  </script>
 </body>
 </html>

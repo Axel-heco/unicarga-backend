@@ -1,9 +1,12 @@
 package unicarga.Proyecto.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import unicarga.Proyecto.model.Contiene;
 
-@Repository
-public interface ContieneRepository extends JpaRepository<Contiene, Long>{
+import java.util.List;
+
+public interface ContieneRepository extends JpaRepository<Contiene, Long> {
+    List<Contiene> findByPedido_IdPedido(Long idPedido);
+
+    void deleteByPedido_IdPedido(Long idPedido);
 }

@@ -24,30 +24,34 @@
               <tr><th>ID</th><th>Nombre</th><th>Cantidad</th><th>Categoría</th></tr>
             </thead>
             <tbody>
-              <tr th:each="det : ${pedido.detalles}">
-                <td th:text="${det.producto.id}">####</td>
-                <td th:text="${det.producto.nombre}">Nombre</td>
-                <td th:text="${det.cantidad}">0</td>
+              <tr th:each="det : ${detalles}">
+                <td th:text="${det.producto.idProducto}">1</td>
+                <td th:text="${det.producto.nombreProducto}">Nombre</td>
+                <td th:text="${det.totalProducto}">0</td>
                 <td th:text="${det.producto.categoria}">Categoría</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <div class="mt-4">
+          <p class="mb-2 fs-5"><span class="fw-bold" style="color: var(--panasonic-blue);">Productos Totales:</span> <strong class="ms-2" th:text="${pedido.total}">23</strong></p>
+          <p class="mb-0 fs-5"><span class="fw-bold" style="color: var(--panasonic-blue);">ID Pedido:</span> <strong class="ms-2" th:text="${pedido.idPedido}">1</strong></p>
+        </div>
       </div>
 
       <div class="col-lg-4 text-center">
-        <div class="mb-4"><div class="metric-label">Unidad recomendada:</div><div class="metric-value" th:text="'“' + ${unidadRecomendada} + '”'">“Camión”</div></div>
-        <div class="mb-4"><div class="metric-label">Espacio Usado:</div><div class="metric-value" th:text="${espacioUsado} + ' m³'">10 m³</div></div>
-        <div class="mb-4"><div class="metric-label">Espacio Libre:</div><div class="metric-value" th:text="${espacioLibre} + ' m³'">0.5 m³</div></div>
+        <div class="mb-4"><div class="metric-label">Unidad recomendada:</div><div class="metric-value" th:text="'“' + ${pedido.unidadTransporte.tipoTransporte} + '”'">“Camión”</div></div>
+        <div class="mb-4"><div class="metric-label">Espacio Usado:</div><div class="metric-value" th:text="${pedido.espacioUsado} + ' m³'">10 m³</div></div>
+        <div class="mb-4"><div class="metric-label">Espacio Libre:</div><div class="metric-value" th:text="${pedido.espacioLibre} + ' m³'">0.5 m³</div></div>
         <div class="mb-4"><div class="metric-label">%Espacio Usado:</div><div class="metric-value" th:text="${porcentajeUsado} + '%'">85%</div></div>
       </div>
     </div>
 
     <div class="d-flex justify-content-between pt-4 flex-wrap gap-3">
-      <form th:action="@{/pedidos/{id}/finalizar(id=${pedido.id})}" method="post">
+      <form th:action="@{/pedidos/{id}/finalizar(id=${pedido.idPedido})}" method="post">
         <button type="submit" class="btn btn-panasonic">Finalizar Pedido</button>
       </form>
-      <a th:href="@{/pedidos/editar/{id}(id=${pedido.id})}" class="btn btn-panasonic">Seguir Editando</a>
+      <a th:href="@{/pedidos/editar/{id}(id=${pedido.idPedido})}" class="btn btn-panasonic">Seguir Editando</a>
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

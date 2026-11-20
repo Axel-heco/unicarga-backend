@@ -9,11 +9,11 @@
       <a th:href="@{/historial}" class="nav-tab-link" th:classappend="${activeTab == 'historial'} ? ' active' : ''">Historial</a>
     </div>
     <div class="dropdown">
-      <button class="btn btn-link text-decoration-none p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button class="btn btn-link text-decoration-none p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menú de usuario">
         <i class="bi bi-three-dots-vertical fs-4" style="color: var(--panasonic-blue);"></i>
       </button>
       <ul class="dropdown-menu dropdown-menu-end">
-        <li><span class="dropdown-item-text small text-muted fw-semibold" th:text="${session.usuario != null ? session.usuario.nombre : 'Operador'}">Operador</span></li>
+        <li><span class="dropdown-item-text small text-muted fw-semibold" th:text="${session.usuario != null ? session.usuario.nombreUsuario : 'Operador'}">Operador</span></li>
         <li><hr class="dropdown-divider" /></li>
         <li><a class="dropdown-item text-danger fw-semibold" th:href="@{/logout}"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
       </ul>

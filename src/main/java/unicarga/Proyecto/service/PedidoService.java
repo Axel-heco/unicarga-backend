@@ -1,6 +1,6 @@
 package unicarga.Proyecto.service;
 
-
+import unicarga.Proyecto.enums.Estado;
 import unicarga.Proyecto.model.Pedido;
 
 import java.time.LocalDateTime;
@@ -20,5 +20,8 @@ public interface PedidoService
     boolean existsById(Long id);
     // Consultar por fecha un Pedido
     Pedido findByFechaPedido(LocalDateTime fechaPedido);
-
+    // NUEVO: Consultar Pedidos por estado (PENDIENTE / FINALIZADO), más recientes primero
+    List<Pedido> findByEstado(Estado estado);
+    // NUEVO: Eliminar un Pedido junto con sus Contiene y su Recibe (en una sola transacción)
+    void eliminarPedidoCompleto(Long id);
 }

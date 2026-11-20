@@ -12,10 +12,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class ContieneServiceImpl implements ContieneService {
     private final ContieneRepository contieneRepository;
-
 
     @Override
     @Transactional(readOnly = true)
@@ -42,6 +40,12 @@ public class ContieneServiceImpl implements ContieneService {
     @Override
     @Transactional(readOnly = true)
     public boolean existsById(long id) {
-        return  contieneRepository.existsById(id);
+        return contieneRepository.existsById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contiene> findByPedidoId(Long idPedido) {
+        return contieneRepository.findByPedido_IdPedido(idPedido);
     }
 }
