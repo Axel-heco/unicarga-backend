@@ -25,7 +25,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (session != null && session.getAttribute(SESSION_USUARIO) != null) {
             return true;
         }
-
         String ctx = request.getContextPath();
         if (request.getRequestURI().startsWith(ctx + "/api/")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

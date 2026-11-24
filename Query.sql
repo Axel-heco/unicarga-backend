@@ -43,19 +43,15 @@ CREATE TABLE UnidadTransporte (
 CREATE TABLE Pedido (
                         idPedido INT NOT NULL AUTO_INCREMENT,
                         total INT NOT NULL DEFAULT 0,
-                        espacioUsado DECIMAL(14,2) NOT NULL DEFAULT 0,
-                        espacioLibre DECIMAL(14,2) NOT NULL DEFAULT 0,
+                        espacioUsado DECIMAL(14,4) NOT NULL DEFAULT 0,
+                        espacioLibre DECIMAL(14,4) NOT NULL DEFAULT 0,
+                        pesoTotal DECIMAL(14,2) NOT NULL DEFAULT 0,
                         estado ENUM('PENDIENTE', 'FINALIZADO') NOT NULL,
-                        fechaPedido DATE NOT NULL,
+                        fechaPedido DATETIME NOT NULL,
                         idUsuario VARCHAR(10) NOT NULL,
-                        idTransporte INT NOT NULL,
                         PRIMARY KEY (idPedido),
                         CONSTRAINT fk_pedido_usuario FOREIGN KEY (idUsuario)
                             REFERENCES Usuario(idUsuario)
-                            ON UPDATE CASCADE
-                            ON DELETE RESTRICT,
-                        CONSTRAINT fk_pedido_unidadTransporte FOREIGN KEY (idTransporte)
-                            REFERENCES UnidadTransporte (idTransporte)
                             ON UPDATE CASCADE
                             ON DELETE RESTRICT
 );
@@ -89,4 +85,22 @@ CREATE TABLE Contiene (
                               REFERENCES Producto (idProducto)
                               ON UPDATE CASCADE
                               ON DELETE RESTRICT
+);
+
+-- Unidades de transporte asignadas a un pedido (un pedido puede usar varias, con cantidad)
+CREATE TABLE Transporta (
+                          idTransporta INT NOT NULL AUTO_INCREMENT,
+                          idPedido INT NOT NULL,
+                          idTransporte INT NOT NULL,
+                          cantidad INT NOT NULL DEFAULT 1,
+                          PRIMARY KEY (idTransporta),
+                          CONSTRAINT fk_transporta_pedido FOREIGN KEY (idPedido)
+                              REFERENCES Pedido (idPedido)
+                              ON UPDATE CASCADE
+                              ON DELETE RESTRICT,
+                          CONSTRAINT fk_transporta_unidad FOREIGN KEY (idTransporte)
+                              REFERENCES UnidadTransporte (idTransporte)
+                              ON UPDATE CASCADE
+                              ON DELETE RESTRICT,
+                          CONSTRAINT ck_transporta_cantidad CHECK (cantidad > 0)
 );
