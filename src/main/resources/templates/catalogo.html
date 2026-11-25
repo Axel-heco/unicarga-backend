@@ -41,7 +41,7 @@
           </div>
           <div class="table-responsive">
             <table class="table table-catalog">
-              <thead><tr><th>ID</th><th>Categoría</th><th>Nombre</th><th>Largo</th><th>Ancho</th><th>Alto</th><th>Peso</th><th>Acciones</th></tr></thead>
+              <thead><tr><th>ID</th><th>Categoría</th><th>Nombre</th><th>Largo(cm)</th><th>Ancho(cm)</th><th>Alto(cm)</th><th>Peso(kg)</th><th>Acciones</th></tr></thead>
               <tbody>
                 <tr th:each="p : ${productos}">
                   <td th:text="${p.idProducto}">1</td>
@@ -74,7 +74,7 @@
           </div>
           <div class="table-responsive">
             <table class="table table-catalog">
-              <thead><tr><th>ID</th><th>Tipo</th><th>Largo</th><th>Ancho</th><th>Alto</th><th>Peso</th><th>Acciones</th></tr></thead>
+              <thead><tr><th>ID</th><th>Tipo</th><th>Largo(cm)</th><th>Ancho(cm)</th><th>Alto(cm)</th><th>Peso(kg)</th><th>Acciones</th></tr></thead>
               <tbody>
                 <tr th:each="t : ${transportes}">
                   <td th:text="${t.idUnidadTransporte}">1</td>
@@ -148,10 +148,10 @@
               <div class="col-md-6">
                 <div class="medidas-box">
                   <span class="medidas-title">Medidas</span>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" min="0.01" name="largoProducto" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" min="0.01" name="anchoProducto" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" min="0.01" name="altoProducto" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="0.01" min="0.01" name="pesoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo(cm)</label><input type="number" step="0.01" min="0.01" name="largoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho(cm)</label><input type="number" step="0.01" min="0.01" name="anchoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto(cm)</label><input type="number" step="0.01" min="0.01" name="altoProducto" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="text-center"><label class="fw-bold small mb-1">Peso(kg)</label><input type="number" step="0.01" min="0.01" name="pesoProducto" class="form-control input-blue-outline text-center" required /></div>
                 </div>
               </div>
             </div>
@@ -182,10 +182,10 @@
               <div class="col-md-6">
                 <div class="medidas-box">
                   <span class="medidas-title">Medidas</span>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo</label><input type="number" step="0.01" min="0.01" name="largoTransporte" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho</label><input type="number" step="0.01" min="0.01" name="anchoTransporte" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto</label><input type="number" step="0.01" min="0.01" name="altoTransporte" class="form-control input-blue-outline text-center" required /></div>
-                  <div class="text-center"><label class="fw-bold small mb-1">Peso</label><input type="number" step="0.01" min="0.01" name="pesoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Largo(cm)</label><input type="number" step="0.01" min="0.01" name="largoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Ancho(cm)</label><input type="number" step="0.01" min="0.01" name="anchoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="mb-3 text-center"><label class="fw-bold small mb-1">Alto(cm)</label><input type="number" step="0.01" min="0.01" name="altoTransporte" class="form-control input-blue-outline text-center" required /></div>
+                  <div class="text-center"><label class="fw-bold small mb-1">Peso(kg)</label><input type="number" step="0.01" min="0.01" name="pesoTransporte" class="form-control input-blue-outline text-center" required /></div>
                 </div>
               </div>
             </div>

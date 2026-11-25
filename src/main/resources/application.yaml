@@ -1,1 +1,36 @@
-spring:  application:    name: Proyecto  datasource:    url: jdbc:mysql://localhost:3306/un1carga?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true    username: root    password: ""    driver-class-name: com.mysql.cj.jdbc.Driver  jpa:    hibernate:      ddl-auto: none    show-sql: true    properties:      hibernate:        format_sql: true        dialect: org.hibernate.dialect.MySQLDialect        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImplserver:  port: 8080  management:    endpoints:      web:        exposure:          include: health, info# Cálculo de cubicaje (pedidos)unicarga:  calculo:    # Fracción del volumen de cada unidad que se considera utilizable (1.00 = 100 %, 0.90 = 90 %)    factor-aprovechamiento: 0.90    # Máximo de unidades que puede tener una combinación sugerida    max-unidades: 10    # Cuántas combinaciones se muestran (la primera es la recomendada)    max-combinaciones: 3
+spring:
+  application:
+    name: Proyecto
+  datasource:
+    url: jdbc:mysql://localhost:3306/un1carga?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+server:
+  port: 8080
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health, info
+
+# Cálculo de cubicaje (pedidos)
+unicarga:
+  calculo:
+    # Fracción del volumen de cada unidad que se considera utilizable (1.00 = 100 %, 0.90 = 90 %)
+    factor-aprovechamiento: 0.90
+    # Máximo de unidades que puede tener una combinación sugerida
+    max-unidades: 10
+    # Cuántas combinaciones se muestran (la primera es la recomendada)
+    max-combinaciones: 3

@@ -1,6 +1,7 @@
 package unicarga.Proyecto.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import unicarga.Proyecto.service.UnidadTransporteService;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CalculoServiceImpl implements CalculoService {
@@ -89,10 +91,12 @@ public class CalculoServiceImpl implements CalculoService {
                         .build())
                 .toList());
 
-        pedido.setEspacioUsado(elegida.espacioUsadoM3());
-        pedido.setEspacioLibre(elegida.espacioLibreM3());
-        pedido.setPesoTotal(resultado.pesoTotalKg());
-        pedidoService.save(pedido);
+        // UPDATE explícito (no depende de la detección de cambios de Hibernate).
+        pedidoService.guardarCalculo(idPedido, elegida.espacioUsadoM3(), elegida.espacioLibreM3(),
+                resultado.pesoTotalKg());
+        log.info("Pedido {} calculado (opción {}): {} | usado={} m³, libre={} m³, peso={} kg",
+                idPedido, opcion, elegida.descripcion(), elegida.espacioUsadoM3(),
+                elegida.espacioLibreM3(), resultado.pesoTotalKg());
         return resultado;
     }
 }
